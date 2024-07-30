@@ -1,7 +1,11 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class App {
     public static void main(String[] args) throws Exception {
         System.out.println(sum(5));
         leastCommonDenominator(6, 10, 14, 15);
+        printPascalsTriangle(8);
     }
 
     // Excercise 1: What does the following code do?: 
@@ -12,7 +16,7 @@ public class App {
             return a + mystery(a, b-1);
         }
     }
-    // the above code adds a to the total until b is equal to 1. For exmaple, if a is 10 and b is 5, it will add 10 5 times, and return 50 for its value. 
+    // the above code adds "a" to the total until b is equal to 1. For exmaple, if a is 10 and b is 5, it will add 10 5 times, and return 50 for its value. 
 
     // Excercise 2: Find the error:
     public static int sum (int n){
@@ -29,12 +33,54 @@ public class App {
     // Excercise 3
 
     // Option 1: Pascal's Traiangle
-    public static void pascalsTriangle(int n){
+    public static void printPascalsTriangle(int n){
+        int numSpaces = n;
         if(n == 1){
             System.out.println("1");
+        } else {
+            printPascalsTriangle(n-1);
+            List<Integer> previousRow = generateRow(n - 2); 
+            List<Integer> currentRow = rowMaker(previousRow);
+            printRow(currentRow);
             System.out.println();
         }
     }
+
+    public static List<Integer> rowMaker(List<Integer> aboveRow){
+        List<Integer> row = new ArrayList<>();
+        if(aboveRow.size() == 1){
+            row.add(1);
+            row.add(1);
+        } else {
+            row.add(1);
+            for(int i = 0; i < aboveRow.size() -1; i++){
+                row.add(aboveRow.get(i) + aboveRow.get(i+1));
+            }
+            row.add(1);
+        }
+        
+        return row;
+    }
+
+    public static List<Integer> generateRow(int rowIndex) {
+        if (rowIndex == 0) {
+            List<Integer> baseRow = new ArrayList<>();
+            baseRow.add(1);
+            return baseRow;
+        }
+
+        List<Integer> previousRow = generateRow(rowIndex - 1);
+        return rowMaker(previousRow);
+    }
+
+
+    public static void printRow(List<Integer> row){
+        for(int num : row){
+            System.out.print(num + " ");
+        }
+    }
+
+
 
     // Option 2: Least Common Denominator
     public static void leastCommonDenominator(int nom1, int denom1, int nom2, int denom2){
@@ -42,7 +88,6 @@ public class App {
         System.out.println("Fraction 1: " + nom1 + "/" + denom1);
         System.out.println("Fraction 2: " + nom2 + "/" + denom2);
         System.out.println("Least Common Denominator: " + lcd);
-        
     }
 
     public static int greatestCommonDenominator(int denom1, int denom2){
@@ -53,3 +98,6 @@ public class App {
         }
     }
 }
+
+
+
